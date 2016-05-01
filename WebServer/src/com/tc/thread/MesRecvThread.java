@@ -39,8 +39,9 @@ public class MesRecvThread extends Thread {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+System.out.println(jsonStr);
 			TransmitBean bean = new TransmitBean(jsonStr);
-			System.out.println(bean.toString());
+System.out.println(bean.toString());
 			// 对bean的 信息进行广播
 			synchronized (CIdToIps.RECV_MMAP) {
 				// 按照班级id获得所有需要广播的连接

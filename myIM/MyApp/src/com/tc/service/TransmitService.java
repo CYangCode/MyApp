@@ -27,12 +27,12 @@ public class TransmitService {
 	/**
 	 * 信息发送，json串的格式"{'classroomid':'???','username':'???', 'message':'???'}"
 	 * @param cId
-	 * @param username
+	 * @param userAccount
 	 * @param mes
 	 * @param time
 	 */
-	public static void send(int cId, String username, String mes, String time) {
-		final String jsonStr = "{'classroomid':'" + cId + "','username':'" + username
+	public static void send(int cId, String userAccount, String mes, String time) {
+		final String jsonStr = "{'classroomid':'" + cId + "','username':'" + userAccount
 				+ "', 'message':'" + mes + "', 'time':'" + time + "'}";
 		try {
 			DataOutputStream os = new DataOutputStream(sendSocket.getOutputStream());

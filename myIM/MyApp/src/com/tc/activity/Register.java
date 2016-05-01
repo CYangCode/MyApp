@@ -81,7 +81,7 @@ public class Register extends Activity {
 					if ("register success".equals(result)) {
 						// 获得登录次数的信息
 						int times = UserInfoService.saveUserInfo(Register.this,
-								userAccount, position, password);
+								userAccount, username, position, password);
 						Intent intent = new Intent();
 						if (times == 0) {
 							intent.setClass(Register.this, LoadingActivity.class);

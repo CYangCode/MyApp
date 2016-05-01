@@ -5,7 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ChatMsgEntity {
-    private String name;
+    private String account;
 
     private String date;
 
@@ -14,15 +14,16 @@ public class ChatMsgEntity {
     private boolean isComMeg = true;
     
 
-    public String getName() {
-        return name;
+    public String getAccount() {
+        return account;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setAccount(String account) {
+		this.account = account;
+	}
 
-    public String getDate() {
+
+	public String getDate() {
         return date;
     }
 
@@ -48,7 +49,7 @@ public class ChatMsgEntity {
 
     @Override
 	public String toString() {
-		return "ChatMsgEntity [name=" + name + ", date=" + date + ", text="
+		return "ChatMsgEntity [name=" + account + ", date=" + date + ", text="
 				+ text + ", isComMeg=" + isComMeg + "]";
 	}
 
@@ -57,7 +58,7 @@ public class ChatMsgEntity {
 
     public ChatMsgEntity(String name, String date, String text, boolean isComMsg) {
         super();
-        this.name = name;
+        this.account = name;
         this.date = date;
         this.text = text;
         this.isComMeg = isComMsg;
@@ -65,7 +66,7 @@ public class ChatMsgEntity {
     
     public ChatMsgEntity(String jsonStr) throws JSONException {
     	JSONObject jsonObj = new JSONObject(jsonStr);
-    	this.name = jsonObj.getString("username");
+    	this.account = jsonObj.getString("username");
     	this.date = jsonObj.getString("time");
     	this.text = jsonObj.getString("mes");
     }

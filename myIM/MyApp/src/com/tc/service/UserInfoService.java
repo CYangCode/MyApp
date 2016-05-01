@@ -13,11 +13,11 @@ public class UserInfoService {
 	 * @param password2 
 	 * @return 登陆次数
 	 */
-	public static int saveUserInfo(Context context, String userName, String position, String password) {
+	public static int saveUserInfo(Context context, String userAccount, String userName, String position, String password) {
 		SharedPreferences sp = context.getSharedPreferences("user_info", Context.MODE_PRIVATE);
 		//获得登陆次数
 		int times = 0;
-		if (!sp.getString("username", "").equals(userName)) {
+		if (!sp.getString("useraccount", "").equals(userAccount)) {
 			//现在登陆的之前不是一个人
 			times = -1;
 		} else {
@@ -25,6 +25,7 @@ public class UserInfoService {
 		}
 		Editor editor = sp.edit();
 		editor.putString("username", userName);
+		editor.putString("useraccount", userAccount);
 		editor.putString("position", position);
 		editor.putString("password", password);
 		//第一次登陆times为0

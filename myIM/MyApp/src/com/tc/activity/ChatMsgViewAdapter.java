@@ -97,7 +97,7 @@ public class ChatMsgViewAdapter extends BaseAdapter {
 	    
 	    
 	    viewHolder.tvSendTime.setText(entity.getDate());
-	    viewHolder.tvUserName.setText(entity.getName());
+	    viewHolder.tvUserName.setText(entity.getAccount());
 	    viewHolder.tvContent.setText(entity.getText());
 	    
 	    return convertView;

@@ -29,15 +29,7 @@
         		android:layout_centerInParent="true"
         		android:textSize="20sp"		
 				android:textColor="#ffffff" /> 
-				<!-- <Spinner 
-				    android:id="@+id/spinner"
-				    android:layout_width="100dp" 
-        		android:layout_height="wrap_content"
-        		android:layout_alignParentRight="true" 
-        		android:layout_centerVertical="true"
-        		android:layout_marginRight="5dp"
-        		/> --> 
-			<Button
+		<!--  	<Button
 			    android:id="@+id/spinner"
 			    android:layout_width="100dp" 
         		android:layout_height="wrap_content"
@@ -45,11 +37,23 @@
         		android:layout_centerVertical="true"
         		android:layout_marginRight="5dp"
         		android:text="发起投票"
-        		android:onClick="toupiao"
+        		android:onClick=""
         		android:textColor="#fff"
         		android:textSize="15dp"
 				android:background="@drawable/title_btn_right"
-			    />      
+			    /> 
+			    -->
+
+			 <Spinner
+			     android:id="@+id/spinner"
+			     android:layout_width="100dp"
+			     android:layout_height="wrap_content"
+			     android:layout_alignParentRight="true" 
+        		android:layout_centerVertical="true"
+			     android:background="@drawable/title_btn_right"
+			     android:textColor="#fff"
+			     android:textSize="15dp" />
+     
 		</RelativeLayout>
     
 	  

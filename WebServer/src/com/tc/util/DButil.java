@@ -58,8 +58,10 @@ public class DButil {
 	 */
 	public static void close(ResultSet rs, Statement st, Connection conn) {
 		try {
-			rs.close();
-			st.close();
+			if (rs != null)
+				rs.close();
+			if (st != null)
+				st.close();
 			if (conn != null) {
 				conn.close();
 			}

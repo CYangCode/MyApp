@@ -27,10 +27,8 @@ public class Login extends Activity {
 
 		mUser = (EditText) findViewById(R.id.login_user_edit);
 		mPassword = (EditText) findViewById(R.id.login_passwd_edit);
-		SharedPreferences sp = getSharedPreferences("user_info",
-				Context.MODE_PRIVATE);
-		mUser.setText(sp.getString("username", ""));
-		mPassword.setText(sp.getString("password", ""));
+		mUser.setText(UserInfoService.get(this, "useraccount"));
+		mPassword.setText(UserInfoService.get(this, "password"));
 
 	}
 
@@ -44,17 +42,17 @@ public class Login extends Activity {
 				try {
 					JSONObject jsonObj = new JSONObject(result);
 					final String userAccount = jsonObj.getString("useraccount");
+					final String username = jsonObj.getString("username");
 					final String password = jsonObj.getString("password");
 					final String position = jsonObj.getString("position");
 
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
-							// TODO Auto-generated method stub
 							Intent intent = new Intent();
 							int times = UserInfoService.saveUserInfo(
 									getApplicationContext(), userAccount,
-									position, password);
+									username, position, password);
 							if (times == 0) {
 								intent.setClass(Login.this,
 										LoadingActivity.class);
@@ -70,7 +68,6 @@ public class Login extends Activity {
 
 						@Override
 						public void run() {
-							// TODO Auto-generated method stub
 							new AlertDialog.Builder(Login.this)
 									.setIcon(
 											getResources()

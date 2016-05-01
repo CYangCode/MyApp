@@ -13,13 +13,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.example.myapp.R;
+import com.tc.resource.Instructions;
 import com.tc.service.TransmitService;
+import com.tc.service.UserInfoService;
 
 /**
  * 
@@ -40,96 +45,102 @@ public class ChatActivity extends Activity implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.chat_xiaohei);
-		// 启动activity时不自动弹出软键�?
+		// 启动activity时不自动弹出软键
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		initView();
+		initSpinner();
+		recvThreadStart();
+	}
 
-		initData();
-		/*
-		 * spinner = (Spinner) this.findViewById(R.id.spinner); List<String>
-		 * list = new ArrayList<String>(); list.add("菜单"); list.add("发起投票");
-		 * list.add("发起签到"); list.add("签到文件"); ArrayAdapter<String> adapter =
-		 * new ArrayAdapter<String>(this, R.layout.spinner, R.id.text, list);
-		 * spinner.setAdapter(adapter); spinner.setOnTouchListener(new
-		 * OnTouchListener() {
-		 * 
-		 * @Override public boolean onTouch(View v, MotionEvent event) { // TODO
-		 * Auto-generated method stub return false; } }); //
-		 * spinner.setOnItemSelectedListener(new OnItemSelectedListener() { //
-		 * 
-		 * @Override // public void onItemSelected(AdapterView<?> arg0, View
-		 * arg1, // int arg2, long arg3) { // // TODO Auto-generated method stub
-		 * // String str = arg0.getItemAtPosition(arg2).toString(); // if (str
-		 * == "发起投票") { // Intent intent = new Intent(); //
-		 * intent.setClass(ChatActivity.this, Toupiao.class); //
-		 * startActivity(intent); // } // if (str == "发起签到") { // Intent intent
-		 * = new Intent(); // intent.setClass(ChatActivity.this, Qiandao.class);
-		 * // startActivity(intent); // } // if (str == "签到文件") { // } // } //
-		 * // @Override // public void onNothingSelected(AdapterView<?> arg0) {
-		 * // // TODO Auto-generated method stub // // } // });
-		 */
-		//
+	private void initSpinner() {
+		spinner = (Spinner) this.findViewById(R.id.spinner);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item);
+		adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+		adapter.add("菜单");
+		if (UserInfoService.get(this, "position").equals("teacher")) {
+			adapter.add("发起投票");
+			adapter.add("发起签到");
+			adapter.add("签到文件");
+		}
+		spinner.setAdapter(adapter);
+		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				String str = arg0.getItemAtPosition(arg2).toString();
+				if (str.equals("发起投票")) {
+					Intent intent = new Intent();
+					intent.setClass(ChatActivity.this, Toupiao.class);
+					startActivity(intent);
+				}
+				if (str.equals("发起签到")) {
+					new Thread() {
+						public void run() {
+							Intent from = getIntent();
+							int cId = from.getIntExtra("classroomid", -1);
+							TransmitService.send(cId, UserInfoService.get(
+									getApplicationContext(), "useraccount"),
+									Instructions.CHECK_IN, "");
+						};
+					}.start();
+				}
+				if (str.equals("签到文件")) {
+
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+			}
+		});
+	}
+
+	private void recvThreadStart() {
 		new Thread() {
 			public void run() {
-				String username = getSharedPreferences("user_info",
-						Context.MODE_PRIVATE).getString("username", "");
+				String userAccount = UserInfoService.get(getApplicationContext(), "useraccount");
 				while (true) {
 					try {
 						// 接收服务器端的信息
 						String jsonStr = TransmitService.resv();
-						ChatMsgEntity tempEntity = null;
-						if (jsonStr != null)
-							tempEntity = new ChatMsgEntity(jsonStr);
+						ChatMsgEntity tempEntity = new ChatMsgEntity(jsonStr);
 						final ChatMsgEntity entity = tempEntity;
-						if (!entity.getName().equals(username)) {
-							synchronized (mDataArrays) {
-								runOnUiThread(new Runnable() {
-
-									@Override
-									public void run() {
-										// TODO Auto-generated method
-										// stub
-										if (null != entity) {
-											mDataArrays.add(entity);
-											mAdapter.notifyDataSetChanged();
-											mListView.setSelection(mListView
-													.getCount() - 1);
-										}
-									}
-								});
-
-							}
+						if (!entity.getAccount().equals(userAccount)) {
+							showRecvMes(entity);
 						}
 					} catch (JSONException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
 			};
 		}.start();
-		/*
-		 * List<String > list=new ArrayList<String>(); list.add("发起投票");
-		 * list.add("发起签到"); ArrayAdapter adapter=new
-		 * ArrayAdapter(this,R.layout.spinner,R.id.text,list);
-		 * spinner.setAdapter(adapter); spinner.setOnItemClickListener(new
-		 * SpinnerOnItemSelectedListener());
-		 */
 	}
 
-	/*
-	 * class SpinnerOnItemSelectedListener implements OnItemClickListener{
-	 * 
-	 * // TODO Auto-generated method stub
-	 * 
-	 * @Override public void onItemClick(AdapterView<?> arg0, View arg1, int
-	 * arg2, long arg3) { // TODO Auto-generated method stub String
-	 * select=arg0.getItemAtPosition(arg2).toString(); if(select.equals("发起签到"))
-	 * { Intent intent=new Intent(); intent.setClass(ChatActivity.this,
-	 * Qiandao.class); startActivity(intent); } if(select.equals("发起投票")) {
-	 * Intent intent=new Intent(); intent.setClass(ChatActivity.this,
-	 * Toupiao.class); startActivity(intent); } } }
-	 */
+	private void showRecvMes(final ChatMsgEntity entity) {
+		synchronized (mDataArrays) {
+			runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					if (null != entity
+							&& entity.getText().equals(Instructions.CHECK_IN)) {
+						Intent intent = new Intent();
+						int cId = getIntent().getIntExtra("classroomid", -1);
+						intent.putExtra("classroomid", cId);
+						intent.setClass(ChatActivity.this, Qiandao.class);
+						startActivity(intent);
+					} else if (null != entity) {
+						mDataArrays.add(entity);
+						mAdapter.notifyDataSetChanged();
+						mListView.setSelection(mListView.getCount() - 1);
+					}
+				}
+			});
+
+		}
+	}
 
 	public void initView() {
 		mListView = (ListView) findViewById(R.id.listview);
@@ -140,37 +151,8 @@ public class ChatActivity extends Activity implements OnClickListener {
 		// spinner=(Spinner)findViewById(R.id.spinner);
 
 		mEditTextContent = (EditText) findViewById(R.id.et_sendmessage);
-	}
-
-	private String[] msgArray = new String[] { "hi！逗比", "你才是逗比！", "我是大师兄派来的！",
-			"你是猴子派来的？", "你知道Siri吗？那个自称阿姨的机器", "你不也是机器？逗比小冰，你知道Google Now吗",
-			"我们各有特色，但伦家更接地气啦~", "尼滚....", };
-
-	private String[] dataArray = new String[] { "2015-09-01 18:00",
-			"2015-09-01 18:10", "2015-09-01 18:11", "2015-09-01 18:20",
-			"2015-09-01 18:30", "2015-09-01 18:35", "2015-09-01 18:40",
-			"2015-09-01 18:50" };
-	private final static int COUNT = 8;
-
-	public void initData() {
-		for (int i = 0; i < COUNT; i++) {
-			ChatMsgEntity entity = new ChatMsgEntity();
-			entity.setDate(dataArray[i]);
-			if (i % 2 == 0) {
-				entity.setName("小冰");
-				entity.setMsgType(true);
-			} else {
-				entity.setName("MM");
-				entity.setMsgType(false);
-			}
-
-			entity.setText(msgArray[i]);
-			mDataArrays.add(entity);
-		}
-
 		mAdapter = new ChatMsgViewAdapter(this, mDataArrays);
 		mListView.setAdapter(mAdapter);
-
 	}
 
 	@Override
@@ -192,14 +174,12 @@ public class ChatActivity extends Activity implements OnClickListener {
 			ChatMsgEntity entity = new ChatMsgEntity();
 			final String time = getDate();
 			entity.setDate(time);
-			final String username = getSharedPreferences("user_info",
-					Context.MODE_PRIVATE).getString("username", "");
-			entity.setName(username);
+			final String userAccount = UserInfoService.get(this, "useraccount");
+			entity.setAccount(userAccount);
 			entity.setMsgType(false);
 			entity.setText(contString);
-			Intent from = getIntent();
-			int cId = from.getIntExtra("classroomid", -1);
-			TransmitService.send(cId, username, contString, time);
+			int cId = getIntent().getIntExtra("classroomid", -1);
+			TransmitService.send(cId, userAccount, contString, time);
 			synchronized (mDataArrays) {
 
 				mDataArrays.add(entity);

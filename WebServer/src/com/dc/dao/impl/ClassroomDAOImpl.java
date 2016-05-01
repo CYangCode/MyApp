@@ -75,7 +75,6 @@ public class ClassroomDAOImpl implements ClassroomDAO {
 		return list;
 	}
 
-	@SuppressWarnings("resource")
 	@Override
 	public int addClassroom(Classroom classroom) {
 		Connection conn = DButil.getConnection();
@@ -95,16 +94,7 @@ public class ClassroomDAOImpl implements ClassroomDAO {
 		int code = 0;
 		try {
 			st = conn.createStatement();
-			st.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
-			rs = st.getGeneratedKeys();
-			int classroomId = 0;
-			if (rs.next()) {
-				classroomId = rs.getInt(1);
-			}
-			sql = "INSERT INTO classmates (c_classroom_id, c_user_id) values ("
-					+ classroomId + ", " + classroom.getcUserId() + ")";
-			st = conn.createStatement();
-			code = st.executeUpdate(sql);
+			code = st.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
