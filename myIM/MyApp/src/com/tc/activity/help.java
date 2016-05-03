@@ -1,10 +1,10 @@
 package com.tc.activity;
 
-import com.example.myapp.R;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+
+import com.example.myapp.R;
 
 public class help extends Activity {
 

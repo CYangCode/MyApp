@@ -19,8 +19,7 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.example.myapp.R;
-import com.tc.activity.Createclassroom;
-import com.tc.activity.Login;
+import com.tc.activity.CreateClassroom;
 import com.tc.adapter.ClassroomListViewAdapter;
 import com.tc.service.BluetoothService;
 import com.tc.service.UserInfoService;
@@ -146,7 +145,7 @@ public class BluetoothSearch extends ListActivity {
 		String pos = UserInfoService.get(this, "position");
 		if ("teacher".equals(pos)) {
 			//学生没有创建教室的权限
-			Intent intent = new Intent(BluetoothSearch.this, Createclassroom.class);
+			Intent intent = new Intent(BluetoothSearch.this, CreateClassroom.class);
 			startActivity(intent);
 		} else {
 			runOnUiThread(new Runnable() {

@@ -53,10 +53,13 @@ public class CreateClassroomServlet extends HttpServlet {
 		System.out.println(cBluetoothAddr);
 		System.out.println(cEndTime);
 		Classroom clsrm = new Classroom(user.getId(), cName, cContent, cBluetoothAddr, cEndTime);
+System.out.println(clsrm);
 		if (clsrmDao.addClassroom(clsrm) == 1) {
+			System.out.println("1");
 			//插入成功
 			response.getOutputStream().write("create class success".getBytes());
 		} else {
+			System.out.println("0");
 			response.getOutputStream().write("create class error".getBytes());
 		}
 	}

@@ -2,15 +2,11 @@ package com.tc.activity;
 
 
 
-import com.example.myapp.R;
-
-import android.os.Bundle;
-import android.os.Handler;
 import android.app.Activity;
-import android.content.Intent;
-import android.view.Menu;
+import android.os.Bundle;
 import android.view.MotionEvent;
-import android.view.WindowManager;
+
+import com.example.myapp.R;
 
 public class InfoXiaoheiHead extends Activity{
 

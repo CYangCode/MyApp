@@ -1,5 +1,4 @@
 package com.tc.activity;
-import com.example.myapp.R;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -14,6 +13,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
+import com.example.myapp.R;
 
 public class SlideBar extends Button{  
 	  

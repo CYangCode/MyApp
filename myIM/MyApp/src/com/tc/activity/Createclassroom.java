@@ -18,8 +18,9 @@ import android.widget.Toast;
 
 import com.example.myapp.R;
 import com.tc.service.CreateClassroomService;
+import com.tc.service.UserInfoService;
 
-public class Createclassroom extends Activity {
+public class CreateClassroom extends Activity {
 	private EditText mClass; // 教室名称
 	private EditText mClassdescribe; // 教室描述
 	private TimePicker mEndTime;// 结束时间
@@ -46,31 +47,26 @@ public class Createclassroom extends Activity {
 	 */
 	@SuppressLint("SimpleDateFormat")
 	public void create_classroom(View v) { // 创建教室界面
-		Intent intent = new Intent();
-		intent.setClass(Createclassroom.this, MainWeixin.class);
-		intent.putExtra("classname", mClass.getText().toString());
-		intent.putExtra("classdescribe", mClassdescribe.getText().toString());
-		startActivity(intent);
-		SharedPreferences sp = getSharedPreferences("user_info",
-				Context.MODE_PRIVATE);
-		final String username = sp.getString("username", "");
+		final String username = UserInfoService.get(this, "useraccount");
 		final String cName = mClass.getText().toString();
 		final String cContent = mClassdescribe.getText().toString();
-//		final String cBluetoothAddr = BluetoothAdapter.getDefaultAdapter()
-//				.getAddress();
-	
+		// final String cBluetoothAddr = BluetoothAdapter.getDefaultAdapter()
+		// .getAddress();
+
 		final String cBluetoothAddr = "11:B0:A2:F4";
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		final String cEndTime = sdf.format(new Date()) + " "
-				+ mEndTime.getCurrentHour() + ":" + mEndTime.getCurrentMinute() + ":00";
+				+ mEndTime.getCurrentHour() + ":" + mEndTime.getCurrentMinute()
+				+ ":00";
 		new Thread() {
 			public void run() {
 				String result = null;
 				try {
-					result = CreateClassroomService.createClassroomByGet(
-							username, cName, cContent, cBluetoothAddr, cEndTime);
+					result = CreateClassroomService
+							.createClassroomByGet(username, cName, cContent,
+									cBluetoothAddr, cEndTime);
 				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
+
 					e.printStackTrace();
 				}
 				if ("create class success".equals(result)) {
@@ -79,8 +75,9 @@ public class Createclassroom extends Activity {
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
-							Toast.makeText(Createclassroom.this, "创建成功",
+							Toast.makeText(CreateClassroom.this, "创建成功",
 									Toast.LENGTH_SHORT).show();
+							finish();
 						}
 					});
 
@@ -90,22 +87,23 @@ public class Createclassroom extends Activity {
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
-							new AlertDialog.Builder(Createclassroom.this)
+							new AlertDialog.Builder(CreateClassroom.this)
 									.setIcon(
 											getResources()
 													.getDrawable(
 															R.drawable.login_error_icon))
-									.setTitle("创建失败").setMessage("创建失败，请重新尝试！")
+									.setTitle("创建失败")
+									.setMessage("创建失败，您有可能已经创建了教室，请检查后重新尝试！")
 									.create().show();
 						}
 					});
-				} else if (result.isEmpty()){
+				} else if (null == result) {
 					runOnUiThread(new Runnable() {
 
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
-							new AlertDialog.Builder(Createclassroom.this)
+							new AlertDialog.Builder(CreateClassroom.this)
 									.setIcon(
 											getResources()
 													.getDrawable(
@@ -118,7 +116,6 @@ public class Createclassroom extends Activity {
 			};
 		}.start();
 
-		this.finish();
 	}
 
 	public void login_back(View v) { // 标题 返回按钮

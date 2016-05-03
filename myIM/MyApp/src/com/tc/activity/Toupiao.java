@@ -1,11 +1,11 @@
 package com.tc.activity;
 
-import com.example.myapp.R;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import com.example.myapp.R;
 
 public class Toupiao extends Activity {
 

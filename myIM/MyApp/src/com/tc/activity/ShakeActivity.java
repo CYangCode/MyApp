@@ -2,15 +2,10 @@ package com.tc.activity;
 
 
 
-import com.example.myapp.R;
-import com.tc.activity.ShakeListener.OnShakeListener;
-
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
-import android.app.Activity;
-import android.content.Intent;
-import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
@@ -21,6 +16,9 @@ import android.widget.SlidingDrawer;
 import android.widget.SlidingDrawer.OnDrawerCloseListener;
 import android.widget.SlidingDrawer.OnDrawerOpenListener;
 import android.widget.Toast;
+
+import com.example.myapp.R;
+import com.tc.activity.ShakeListener.OnShakeListener;
 
 public class ShakeActivity extends Activity{
 	

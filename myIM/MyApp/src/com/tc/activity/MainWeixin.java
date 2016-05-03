@@ -318,7 +318,7 @@ public class MainWeixin extends Activity {
 	      } 
 	 public void createclassroom(View v) {  //创建教室界面
 	      	Intent intent = new Intent();
-			intent.setClass(MainWeixin.this,Createclassroom.class);
+			intent.setClass(MainWeixin.this,CreateClassroom.class);
 			startActivity(intent);
 			//this.finish();
 			/*

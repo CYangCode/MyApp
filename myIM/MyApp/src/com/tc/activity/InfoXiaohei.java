@@ -1,12 +1,11 @@
 package com.tc.activity;
 
-import com.example.myapp.R;
-
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
+
+import com.example.myapp.R;
 
 public class InfoXiaohei extends Activity {
 	@Override

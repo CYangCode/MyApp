@@ -7,7 +7,7 @@ import java.util.List;
 import org.json.JSONException;
 
 import android.app.Activity;
-import android.content.Context;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -20,17 +20,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.myapp.R;
 import com.tc.resource.Instructions;
+import com.tc.service.DownloadService;
+import com.tc.service.FileRequestService;
 import com.tc.service.TransmitService;
 import com.tc.service.UserInfoService;
 
-/**
- * 
- * @author geniuseoe2012 更多精彩，请关注我的CSDN博客http://blog.csdn.net/geniuseoe2012
- *         android�?��交流群：200102476
- */
 public class ChatActivity extends Activity implements OnClickListener {
 	/** Called when the activity is first created. */
 
@@ -79,29 +77,64 @@ public class ChatActivity extends Activity implements OnClickListener {
 				if (str.equals("发起签到")) {
 					new Thread() {
 						public void run() {
-							Intent from = getIntent();
-							int cId = from.getIntExtra("classroomid", -1);
-							TransmitService.send(cId, UserInfoService.get(
-									getApplicationContext(), "useraccount"),
+							TransmitService.send(
+									getIntent().getIntExtra("classroomid", -1),
+									UserInfoService.get(
+											getApplicationContext(),
+											"useraccount"),
 									Instructions.CHECK_IN, "");
 						};
 					}.start();
 				}
 				if (str.equals("签到文件")) {
-
+					new Thread() {
+						public void run() {
+							//TODO 使用service发送生成文件请求
+							final int cId = getIntent().getIntExtra("classroomid", -1);
+							String result = FileRequestService.requestByGet(cId);
+							//TODO 从服务器端下载文件
+							if ("success".equals(result)) {
+								runOnUiThread(new Runnable() {
+									@Override
+									public void run() {
+										// TODO Auto-generated method stub
+										Toast.makeText(getApplicationContext(), "正在下载", Toast.LENGTH_SHORT).show();
+										DownloadService.download(getApplicationContext(), cId);
+									}
+								});
+							} else {
+								notice("下载失败", "请尝试重新下载！");
+							}
+						};
+					}.start();
 				}
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
+				
 			}
 		});
 	}
+	
+	private void notice(final String title, final String content) {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				new AlertDialog.Builder(ChatActivity.this)
+						.setIcon(
+								getResources().getDrawable(
+										R.drawable.login_error_icon))
+						.setTitle(title).setMessage(content).create().show();
+			}
+		});
 
+	}
 	private void recvThreadStart() {
 		new Thread() {
 			public void run() {
-				String userAccount = UserInfoService.get(getApplicationContext(), "useraccount");
+				String userAccount = UserInfoService.get(
+						getApplicationContext(), "useraccount");
 				while (true) {
 					try {
 						// 接收服务器端的信息

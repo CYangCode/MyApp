@@ -35,25 +35,25 @@ public class Register extends Activity {
 	private boolean validateRegisterInfo() {
 		if (et_account.getText().length() == 0
 				|| et_account.getText().toString().matches("\\s{1,}")) {
-			showErrorMes("注册失败", "账号为空，\n请检查后重新输入！");
+			notice("注册失败", "账号为空，\n请检查后重新输入！");
 			return false;
 		} else if (!et_password.getText().toString()
 				.equals(et_conpassword.getText().toString())) {
-			showErrorMes("注册失败", "两次密码不一致，\n请检查后重新输入！");
+			notice("注册失败", "两次密码不一致，\n请检查后重新输入！");
 			return false;
 		} else if (et_password.getText().length() == 0
 				|| et_conpassword.getText().length() == 0) {
-			showErrorMes("注册失败", "密码为空，\n请检查后重新输入！");
+			notice("注册失败", "密码为空，\n请检查后重新输入！");
 			return false;
 		} else if (et_name.getText().length() == 0
 				|| et_name.getText().toString().matches("\\s{1,}")) {
-			showErrorMes("注册失败", "姓名为空，\n请检查后重新输入！");
+			notice("注册失败", "姓名为空，\n请检查后重新输入！");
 			return false;
 		}
 		return true;
 	}
 
-	private void showErrorMes(final String title, final String content) {
+	private void notice(final String title, final String content) {
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
@@ -100,9 +100,9 @@ public class Register extends Activity {
 						});
 						finish();
 					} else if ("register error".equals(result)) {
-						showErrorMes("注册失败", "注册失败，请尝试其他账号！");
+						notice("注册失败", "注册失败，请尝试其他账号！");
 					} else if (result == null) {
-						showErrorMes("注册失败", "连接失败！");
+						notice("注册失败", "连接失败！");
 					}
 				};
 			}.start();

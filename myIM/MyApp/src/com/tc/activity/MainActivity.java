@@ -1,17 +1,11 @@
 package com.tc.activity;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-
-import com.example.myapp.R;
-import com.tc.activity.SlideBar.OnTouchAssortListener;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -20,6 +14,9 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.myapp.R;
+import com.tc.activity.SlideBar.OnTouchAssortListener;
 public class MainActivity extends Activity implements OnTouchAssortListener,OnItemClickListener{
 
 	private SlideBar mSlideBar;
