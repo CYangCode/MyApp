@@ -4,13 +4,17 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
 
+import com.tc.resource.ServerInfo;
+
 public class DownloadService {
-	
+
 	public static void download(Context context, int cId) {
-		DownloadManager manager = (DownloadManager)context.getSystemService(Context.DOWNLOAD_SERVICE);
+		DownloadManager manager = (DownloadManager) context
+				.getSystemService(Context.DOWNLOAD_SERVICE);
 		// 创建下载请求
-		DownloadManager.Request down = new DownloadManager.Request(
-				Uri.parse("http://49.140.58.25:8080/WebServer/Download/checkin" + cId + ".txt"));
+		Uri uri = Uri.parse(ServerInfo.getFtpUrl() + "checkin" + cId + ".txt");
+System.out.println(uri);
+		DownloadManager.Request down = new DownloadManager.Request(uri);
 		// 设置允许使用的网络类型，这里是移动网络和wifi都可以
 		down.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE
 				| DownloadManager.Request.NETWORK_WIFI);

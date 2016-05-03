@@ -44,7 +44,7 @@ public class FileRequestServlet extends HttpServlet {
 		String cId = request.getParameter("classroomid");
 		ArrayList<HashMap<String, String>> result = dao
 				.findClassmatesByClassroomId(cId);
-		String path = "D:\\代码\\GitHub\\MyApp\\WebServer\\WebContent\\Download" + cId + ".txt";
+		String path = "d:\\test\\checkin" + cId + ".txt";
 System.out.println(path);
 		try {
 			convertResultToFile(result, path);
