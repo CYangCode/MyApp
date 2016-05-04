@@ -19,18 +19,24 @@ public class CreateClassroomService {
 	 */
 	public static String createClassroomByGet(String username, String cName,
 			String cContent, String cBluetoothAddr, String cEndTime)
-			throws UnsupportedEncodingException {
+			{
 		// 提交数据到服务器
-		String path = "http://" + ServerInfo.getHttpServerIpPort() + "/WebServer/CreateClassroomServlet?username="
-				+ URLEncoder.encode(username, "utf-8")
-				+ "&classroomname="
-				+ URLEncoder.encode(URLEncoder.encode(cName, "utf-8"), "utf-8")// 服务端会自动decode一次所以要encode两次
-				+ "&classroomcontent="
-				+ URLEncoder.encode(URLEncoder.encode(cContent, "utf-8"),// 同理
-						"utf-8")
-				+ "&bluetoothaddr="
-				+ URLEncoder.encode(cBluetoothAddr, "utf-8")
-				+ "&classroomendtime=" + URLEncoder.encode(cEndTime, "utf-8");
+		String path = null;
+		try {
+			path = "http://" + ServerInfo.getHttpServerIpPort() + "/WebServer/CreateClassroomServlet?username="
+					+ URLEncoder.encode(username, "utf-8")
+					+ "&classroomname="
+					+ URLEncoder.encode(URLEncoder.encode(cName, "utf-8"), "utf-8")// 服务端会自动decode一次所以要encode两次
+					+ "&classroomcontent="
+					+ URLEncoder.encode(URLEncoder.encode(cContent, "utf-8"),// 同理
+							"utf-8")
+					+ "&bluetoothaddr="
+					+ URLEncoder.encode(cBluetoothAddr, "utf-8")
+					+ "&classroomendtime=" + URLEncoder.encode(cEndTime, "utf-8");
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		URL url = null;
 		try {
 			url = new URL(path);

@@ -89,17 +89,22 @@ public class ChatActivity extends Activity implements OnClickListener {
 				if (str.equals("签到文件")) {
 					new Thread() {
 						public void run() {
-							//TODO 使用service发送生成文件请求
-							final int cId = getIntent().getIntExtra("classroomid", -1);
-							String result = FileRequestService.requestByGet(cId);
-							//TODO 从服务器端下载文件
+							// TODO 使用service发送生成文件请求
+							final int cId = getIntent().getIntExtra(
+									"classroomid", -1);
+							String result = FileRequestService
+									.requestByGet(cId);
+							// TODO 从服务器端下载文件
 							if ("success".equals(result)) {
 								runOnUiThread(new Runnable() {
 									@Override
 									public void run() {
 										// TODO Auto-generated method stub
-										Toast.makeText(getApplicationContext(), "正在下载", Toast.LENGTH_SHORT).show();
-										DownloadService.download(getApplicationContext(), cId);
+										Toast.makeText(getApplicationContext(),
+												"正在下载", Toast.LENGTH_SHORT)
+												.show();
+										DownloadService.download(
+												getApplicationContext(), cId);
 									}
 								});
 							} else {
@@ -112,11 +117,11 @@ public class ChatActivity extends Activity implements OnClickListener {
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
-				
+
 			}
 		});
 	}
-	
+
 	private void notice(final String title, final String content) {
 		runOnUiThread(new Runnable() {
 			@Override
@@ -130,6 +135,7 @@ public class ChatActivity extends Activity implements OnClickListener {
 		});
 
 	}
+
 	private void recvThreadStart() {
 		new Thread() {
 			public void run() {
@@ -139,6 +145,11 @@ public class ChatActivity extends Activity implements OnClickListener {
 					try {
 						// 接收服务器端的信息
 						String jsonStr = TransmitService.resv();
+System.out.println(jsonStr);
+						if (jsonStr.equals(Instructions.CLASSROOM_TIME_OUT)) {
+							notice("提示", "课程结束！");notice("提示", "课程结束！");
+							break;
+						}
 						ChatMsgEntity tempEntity = new ChatMsgEntity(jsonStr);
 						final ChatMsgEntity entity = tempEntity;
 						if (!entity.getAccount().equals(userAccount)) {
@@ -164,7 +175,7 @@ public class ChatActivity extends Activity implements OnClickListener {
 						intent.putExtra("classroomid", cId);
 						intent.setClass(ChatActivity.this, Qiandao.class);
 						startActivity(intent);
-					} else if (null != entity) {
+					}  else if (null != entity) {
 						mDataArrays.add(entity);
 						mAdapter.notifyDataSetChanged();
 						mListView.setSelection(mListView.getCount() - 1);

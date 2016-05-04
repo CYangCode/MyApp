@@ -50,6 +50,7 @@ System.out.println(jsonStr);
 	 */
 	public static void send(int cId) {
 		try {
+System.out.println("Transmit service: " + cId);
 			DataOutputStream os = new DataOutputStream(recvSocket.getOutputStream());
 			os.writeUTF("" + cId);
 		} catch (IOException e) {

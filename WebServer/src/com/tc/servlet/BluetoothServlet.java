@@ -34,7 +34,6 @@ public class BluetoothServlet extends HttpServlet {
 		clsrmDao = new ClassroomDAOImpl();
 		//获得客户端的参数
 		String bluetoothAddr = request.getParameter("bluetooth_addr");
-		System.out.println("bluetoothAddr: " + bluetoothAddr);
 		//通过蓝牙地址找到Classroom
 		Classroom classroom = clsrmDao.findClassroomByBluetooth(bluetoothAddr);
 		if (classroom != null) {

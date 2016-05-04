@@ -70,10 +70,17 @@ public class ClassmatesDAOImpl extends BaseDao implements ClassmatesDAO {
 		return executeQuery("SELECT c_user_name, c_user_account FROM `database`.classmates where c_classroom_id = "
 				+ cId);
 	}
-//
+
 //	public static void main(String[] args) {
 //		ClassmatesDAOImpl dao = new ClassmatesDAOImpl();
-//		ArrayList<HashMap<String, String>> result = dao.findClassmatesByClassroomId("27");
+//		dao.delClassmatesByClassrommId("27");
+//	//	ArrayList<HashMap<String, String>> result = dao.findClassmatesByClassroomId("27");
 ////		new FileManageThread("27").start();
 //	}
+
+	@Override
+	public int delClassmatesByClassrommId(String string) {
+		String sql = "DELETE FROM `database`.`classmates` WHERE `c_classroom_id`=" + string;
+		return executeUpdate(sql);
+	}
 }

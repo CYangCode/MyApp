@@ -8,11 +8,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.dc.dao.BaseDao;
 import com.dc.dao.ClassroomDAO;
 import com.tc.bean.Classroom;
 import com.tc.util.DButil;
 
-public class ClassroomDAOImpl implements ClassroomDAO {
+public class ClassroomDAOImpl extends BaseDao implements ClassroomDAO{
 
 	@Override
 	public Classroom findClassroomById(int id) {
@@ -137,11 +138,17 @@ public class ClassroomDAOImpl implements ClassroomDAO {
 		}
 		return classroom;
 	}
-	public static void main(String[] args) {
-		ClassroomDAO dao = new ClassroomDAOImpl();
-	
-		Classroom clsrm = dao.findClassroomByBluetooth("AC:F7:F3:D1:FF:95");
-		if (clsrm != null)
-		System.out.println(clsrm.toString());
+//	public static void main(String[] args) {
+//		ClassroomDAO dao = new ClassroomDAOImpl();
+//	
+//		Classroom clsrm = dao.findClassroomByBluetooth("AC:F7:F3:D1:FF:95");
+//		if (clsrm != null)
+//		System.out.println(clsrm.toString());
+//	}
+
+	@Override
+	public int delClassroomById(String id) {
+		String sql = "DELETE FROM `database`.`classrooms` WHERE `id`=" + id;
+		return executeUpdate(sql);
 	}
 }

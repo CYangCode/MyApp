@@ -11,4 +11,6 @@ public interface ClassmatesDAO {
 	public boolean createFile(String cId, String path);
 	
 	public ArrayList<HashMap<String, String>> findClassmatesByClassroomId(String id);
+	
+	public int delClassmatesByClassrommId(String cId);
 }

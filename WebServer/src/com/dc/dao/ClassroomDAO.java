@@ -22,4 +22,6 @@ public interface ClassroomDAO {
 	public Classroom findClassroomByBluetooth(String bluetoothAddr);
 	
 	public int addClassroom(Classroom classroom);
+	
+	public int delClassroomById(String id);
 }

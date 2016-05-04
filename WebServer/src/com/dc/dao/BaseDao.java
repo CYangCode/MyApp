@@ -1,5 +1,7 @@
 package com.dc.dao;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -9,14 +11,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.Properties;
 import java.util.Set;
 
 import com.mysql.jdbc.ResultSetMetaData;
+import com.tc.util.DButil;
 
 public class BaseDao {
 
 	private String url = "jdbc:mysql://127.0.0.1:3306/";
-	private String dbs = "database";
 	private String user = "root";
 	private String pwd = "1234";
 
@@ -25,8 +28,20 @@ public class BaseDao {
 	private Statement statement;
 
 	public BaseDao() {
+		Properties pro = new Properties();
+		InputStream is = DButil.class.getClassLoader().getResourceAsStream(
+				"DB.properties");
 		try {
-			connection = DriverManager.getConnection(url + dbs, user, pwd);
+			pro.load(is);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		url = pro.getProperty("url");
+		user = pro.getProperty("username");
+		pwd = pro.getProperty("password");
+		try {
+			connection = DriverManager.getConnection(url, user, pwd);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
