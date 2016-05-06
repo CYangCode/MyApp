@@ -6,13 +6,21 @@ import org.json.JSONObject;
 
 public class ChatMsgEntity {
     private String account;
+    private String username;
 
-    private String date;
+	private String date;
 
     private String text;
 
     private boolean isComMeg = true;
     
+    public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
     public String getAccount() {
         return account;
@@ -66,7 +74,8 @@ public class ChatMsgEntity {
     
     public ChatMsgEntity(String jsonStr) throws JSONException {
     	JSONObject jsonObj = new JSONObject(jsonStr);
-    	this.account = jsonObj.getString("username");
+    	this.account = jsonObj.getString("useraccount");
+    	this.username = jsonObj.getString("username");
     	this.date = jsonObj.getString("time");
     	this.text = jsonObj.getString("mes");
     }

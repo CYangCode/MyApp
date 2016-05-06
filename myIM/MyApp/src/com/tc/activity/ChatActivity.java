@@ -81,7 +81,9 @@ public class ChatActivity extends Activity implements OnClickListener {
 									getIntent().getIntExtra("classroomid", -1),
 									UserInfoService.get(
 											getApplicationContext(),
-											"useraccount"),
+											"useraccount"), UserInfoService
+											.get(getApplicationContext(),
+													"username"),
 									Instructions.CHECK_IN, "");
 						};
 					}.start();
@@ -145,13 +147,12 @@ public class ChatActivity extends Activity implements OnClickListener {
 					try {
 						// 接收服务器端的信息
 						String jsonStr = TransmitService.resv();
-System.out.println(jsonStr);
 						if (jsonStr.equals(Instructions.CLASSROOM_TIME_OUT)) {
-							notice("提示", "课程结束！");notice("提示", "课程结束！");
+							notice("提示", "课程结束！");
+							notice("提示", "课程结束！");
 							break;
 						}
-						ChatMsgEntity tempEntity = new ChatMsgEntity(jsonStr);
-						final ChatMsgEntity entity = tempEntity;
+						final ChatMsgEntity entity = new ChatMsgEntity(jsonStr);
 						if (!entity.getAccount().equals(userAccount)) {
 							showRecvMes(entity);
 						}
@@ -175,14 +176,13 @@ System.out.println(jsonStr);
 						intent.putExtra("classroomid", cId);
 						intent.setClass(ChatActivity.this, Qiandao.class);
 						startActivity(intent);
-					}  else if (null != entity) {
+					} else if (null != entity) {
 						mDataArrays.add(entity);
 						mAdapter.notifyDataSetChanged();
 						mListView.setSelection(mListView.getCount() - 1);
 					}
 				}
 			});
-
 		}
 	}
 
@@ -219,18 +219,17 @@ System.out.println(jsonStr);
 			final String time = getDate();
 			entity.setDate(time);
 			final String userAccount = UserInfoService.get(this, "useraccount");
+			final String username = UserInfoService.get(this, "username");
+			entity.setUsername(username);
 			entity.setAccount(userAccount);
 			entity.setMsgType(false);
 			entity.setText(contString);
 			int cId = getIntent().getIntExtra("classroomid", -1);
-			TransmitService.send(cId, userAccount, contString, time);
+			TransmitService.send(cId,  userAccount, username, contString, time);
 			synchronized (mDataArrays) {
-
 				mDataArrays.add(entity);
 				mAdapter.notifyDataSetChanged();
-
 				mEditTextContent.setText("");
-
 				mListView.setSelection(mListView.getCount() - 1);
 			}
 		}

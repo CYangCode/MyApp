@@ -1,13 +1,14 @@
 package com.tc.service;
 
+import android.annotation.SuppressLint;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
-
 import com.tc.resource.ServerInfo;
 
 public class DownloadService {
 
+	@SuppressLint("NewApi")
 	public static void download(Context context, int cId) {
 		DownloadManager manager = (DownloadManager) context
 				.getSystemService(Context.DOWNLOAD_SERVICE);
@@ -22,6 +23,7 @@ System.out.println(uri);
 		down.setVisibleInDownloadsUi(true);
 		// 设置下载后文件存放的位置
 		down.setDestinationInExternalFilesDir(context, null, "checkin.txt");
+		down.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
 		// 将下载请求放入队列
 		manager.enqueue(down);
 	}

@@ -31,8 +31,8 @@ public class TransmitService {
 	 * @param mes
 	 * @param time
 	 */
-	public static void send(int cId, String userAccount, String mes, String time) {
-		final String jsonStr = "{'classroomid':'" + cId + "','username':'" + userAccount
+	public static void send(int cId, String userAccount, String username, String mes, String time) {
+		final String jsonStr = "{'classroomid':'" + cId + "','useraccount':'" + userAccount + "','username':'" + username
 				+ "', 'message':'" + mes + "', 'time':'" + time + "'}";
 		try {
 			DataOutputStream os = new DataOutputStream(sendSocket.getOutputStream());

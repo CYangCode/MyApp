@@ -7,6 +7,7 @@ public
 class TransmitBean {
 	private String cId;
 	private String username;
+	private String userAccount;
 	private String mes;
 	private String time;
 
@@ -15,10 +16,12 @@ class TransmitBean {
 		JSONObject jsonObj = JSONObject.fromObject(jsonStr);
 		cId = jsonObj.getString("classroomid");
 		username = jsonObj.getString("username");
+		userAccount = jsonObj.getString("useraccount");
 		mes = jsonObj.getString("message");
 		time = jsonObj.getString("time");
 	}
 
+	
 	public String getcId() {
 		return cId;
 	}
@@ -45,7 +48,7 @@ class TransmitBean {
 	 * @return 需要发送的json字符串格式
 	 */
 	public String getSendModelJsonString() {
-		String sendMes = "{'username':'" + username + "', 'time':'" + time
+		String sendMes = "{'useraccount':'" + userAccount + "','username':'" + username + "','time':'" + time
 				+ "', 'mes':'" + mes + "'}";
 		return sendMes;
 	}

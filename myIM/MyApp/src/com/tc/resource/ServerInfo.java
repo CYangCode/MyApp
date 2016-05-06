@@ -2,7 +2,7 @@ package com.tc.resource;
 
 
 public class ServerInfo {
-	public static final String SERVER_IP = "49.140.58.25";
+	public static final String SERVER_IP = "10.151.138.20";
 	public static final String FTP_USER_NAME = "anonymous";
 	public static final String FTP_USER_PWD = "1234";
 	public static final int TCP_SEND_PORT = 6666;

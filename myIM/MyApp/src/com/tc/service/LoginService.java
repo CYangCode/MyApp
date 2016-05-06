@@ -4,6 +4,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import android.util.Log;
+
 import com.tc.resource.ServerInfo;
 import com.tc.service.util.StreamTool;
 
@@ -18,6 +20,7 @@ public class LoginService {
 		// 提交数据到服务器
 		String path = "http://" + ServerInfo.getHttpServerIpPort() + "/WebServer/LoginServlet?username="
 				+ username + "&password=" + password;
+		System.out.println(path);
 		URL url = null;
 		try {
 			url = new URL(path);
